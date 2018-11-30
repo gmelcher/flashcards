@@ -3,7 +3,7 @@
     <v-flex xs6 offset-xs3>
       <div class ="white elevation-2">
         <v-toolbar flat dense class="green darken-2" dark>
-          <v-toolbar-title>Register</v-toolbar-title>
+          <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
           <div class="pl-4 pr-4 pt-2 pb-2">
             <v-text-field
@@ -18,8 +18,8 @@
             <br>
             <v-btn
               class="green darken-2" dark
-              v-on:click="register">
-              Register
+              v-on:click="login">
+              Login
               </v-btn>
             <br>
             <div class="error" v-html="error" />
@@ -40,15 +40,16 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        await AuthenticationService.register({
+        await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
       } catch (error) {
         this.error = error.response.data.error
       }
+      console.log(this.email, this.login)
     }
   }
 }
@@ -57,6 +58,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .error {
+  background-color: #999;
   color: red;
 }
 
