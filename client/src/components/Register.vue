@@ -1,11 +1,11 @@
 <template>
   <v-layout row wrap>
     <v-flex xs6 offset-xs3>
-      <div class ="white elevation-2">
-        <v-toolbar flat dense class="green darken-2" dark>
-          <v-toolbar-title>Register</v-toolbar-title>
-        </v-toolbar>
-          <div class="pl-4 pr-4 pt-2 pb-2">
+      <panel title="Register">
+        <div class="pl-4 pr-4 pt-2 pb-2">
+          <form
+            name="register-form"
+            autocomplete="off">
             <v-text-field
               label="email"
               v-model="email"
@@ -13,23 +13,27 @@
             <br>
             <v-text-field
               label="password"
+              type="password"
               v-model="password"
+              autocomplete="new-password"
             ></v-text-field>
             <br>
             <v-btn
               class="green darken-2" dark
               v-on:click="register">
               Register
-              </v-btn>
-            <br>
-            <div class="error" v-html="error" />
-          </div>
-      </div>
+            </v-btn>
+          </form>
+          <br>
+          <div class="error" v-html="error" />
+        </div>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import Panel from '@/components/Panel'
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data () {
@@ -42,14 +46,19 @@ export default {
   methods: {
     async register () {
       try {
-        await AuthenticationService.register({
+        const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
       } catch (error) {
         this.error = error.response.data.error
       }
     }
+  },
+  components: {
+    Panel
   }
 }
 </script>

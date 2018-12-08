@@ -1,36 +1,43 @@
 <template>
   <v-layout row wrap>
     <v-flex xs6 offset-xs3>
-      <div class ="white elevation-2">
-        <v-toolbar flat dense class="green darken-2" dark>
-          <v-toolbar-title>Login</v-toolbar-title>
-        </v-toolbar>
-          <div class="pl-4 pr-4 pt-2 pb-2">
+      <panel title="Login">
+        <div class="pl-4 pr-4 pt-2 pb-2">
+          <form
+            name="login-form">
             <v-text-field
+              color="green darken-2"
               label="email"
               v-model="email"
+              type="text"
             ></v-text-field>
             <br>
             <v-text-field
+              color="green darken-2"
               label="password"
+              type="password"
               v-model="password"
             ></v-text-field>
             <br>
-            <v-btn
-              class="green darken-2" dark
-              v-on:click="login">
-              Login
+            <router-link to="list">
+              <v-btn
+                class="green darken-2" dark
+                v-on:click="login">
+                Login
               </v-btn>
-            <br>
-            <div class="error" v-html="error" />
-          </div>
-      </div>
+            </router-link>
+          </form>
+          <br>
+          <div class="error" v-html="error" />
+        </div>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import Panel from '@/components/Panel'
 export default {
   data () {
     return {
@@ -42,15 +49,20 @@ export default {
   methods: {
     async login () {
       try {
-        await AuthenticationService.login({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
       } catch (error) {
         this.error = error.response.data.error
       }
       console.log(this.email, this.login)
     }
+  },
+  components: {
+    Panel
   }
 }
 </script>
