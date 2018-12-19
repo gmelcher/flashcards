@@ -1,6 +1,15 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <v-btn
+      class="green darken-2"
+      dark
+      :to="{name: 'Card'}">
+      Go To Cards
+    </v-btn>
+    <p>
+      Login to add or edit cards.
+    </p>
   </div>
 </template>
 

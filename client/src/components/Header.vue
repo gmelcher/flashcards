@@ -5,6 +5,14 @@
         Flashcards
       </router-link>
     </v-toolbar-title>
+      <router-link :to="{name: 'Card'}" tag="span">
+        <v-btn
+          class="green darken-2"
+          dark
+          flat>
+          Cards
+        </v-btn>
+      </router-link>
       <router-link :to="{ name: 'List'}" tag="span">
           <v-btn
             v-if="$store.state.isUserLoggedIn"
@@ -40,7 +48,6 @@
           </v-btn>
         </router-link>
   </v-toolbar>
-
 </template>
 
 <script>
@@ -51,7 +58,6 @@ export default {
       this.$store.dispatch('setUser', null)
     }
   }
-
 }
 </script>
 

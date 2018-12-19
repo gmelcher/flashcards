@@ -43,9 +43,13 @@ export default new Router({
       component: Update
     },
     {
-      path: '/cards/:id',
+      path: '/cards',
       name: 'Card',
       component: Card
+    },
+    {
+      path: '*',
+      redirect: { name: 'Root' }
     }
   ]
 })

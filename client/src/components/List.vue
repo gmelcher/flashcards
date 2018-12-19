@@ -47,6 +47,7 @@
 <script>
 import Panel from '@/components/Panel'
 import CardsService from '@/services/CardsService'
+import _ from 'lodash'
 export default {
   components: {
     Panel
@@ -58,12 +59,18 @@ export default {
     }
   },
   watch: {
-    'search': {
-      immediate: true,
-      async handler (value) {
+    'search':
+      _.debounce(async function (value) {
         this.cards = (await CardsService.getAllCards(value)).data
-      }
+      }, 300)
+  },
+  async mounted () {
+    if (!this.$store.state.isUserLoggedIn) {
+      this.$router.push({
+        name: 'Login'
+      })
     }
+    this.cards = (await CardsService.getAllCards()).data
   }
 }
 </script>

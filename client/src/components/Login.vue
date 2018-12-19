@@ -28,7 +28,7 @@
             </router-link>
           </form>
           <br>
-          <div class="error" v-html="error" />
+          <div class="orange white--text" v-html="error" />
         </div>
       </panel>
     </v-flex>
@@ -55,6 +55,9 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'List'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

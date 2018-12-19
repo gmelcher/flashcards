@@ -3,9 +3,6 @@
     <v-flex xs6 offset-xs3>
       <panel title="Create">
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <form
-            name="create-form"
-            autocomplete="off">
             <v-text-field
               label="Term"
               :rules="[rules.required]"
@@ -29,8 +26,9 @@
               v-on:click="create">
               Create
             </v-btn>
-          </form>
-          <div class="error" v-if="error">
+          <div
+            class="orange text--white"
+            v-if="error">
             {{error}}
           </div>
           <br>
@@ -78,6 +76,13 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    }
+  },
+  mounted () {
+    if (!this.$store.state.isUserLoggedIn) {
+      this.$router.push({
+        name: 'Login'
+      })
     }
   }
 }

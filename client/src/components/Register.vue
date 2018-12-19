@@ -19,13 +19,16 @@
             ></v-text-field>
             <br>
             <v-btn
-              class="green darken-2" dark
+              class="green darken-2"
+              dark
               v-on:click="register">
               Register
             </v-btn>
           </form>
           <br>
-          <div class="error" v-html="error" />
+          <div
+            class="orange white--text"
+            v-html="error" />
         </div>
       </panel>
     </v-flex>
@@ -52,6 +55,9 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'Root'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

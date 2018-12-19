@@ -3,33 +3,34 @@
     <v-flex xs6 offset-xs3>
       <panel title="Update">
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <form
-            name="create-form"
-            autocomplete="off">
-            <v-text-field
-              color="green darken-2"
-              label="Term"
-              v-model="card.term"
-            ></v-text-field>
-            <br>
-            <v-textarea
-              color="green darken-2"
-              label="Answer"
-              v-model="card.answer"
-            ></v-textarea>
-            <br>
-            <v-text-field
-              color="green darken-2"
-              label="More Info"
-              v-model="card.moreInfoURL"
-            ></v-text-field>
-            <br>
-            <v-btn
-              class="green darken-2" dark
-              v-on:click="update">
-              Update
-            </v-btn>
-          </form>
+          <v-text-field
+            color="green darken-2"
+            label="Term"
+            v-model="card.term"
+          ></v-text-field>
+          <br>
+          <v-textarea
+            color="green darken-2"
+            label="Answer"
+            v-model="card.answer"
+          ></v-textarea>
+          <br>
+          <v-text-field
+            color="green darken-2"
+            label="More Info"
+            v-model="card.moreInfoURL"
+          ></v-text-field>
+          <br>
+          <v-btn
+            class="green darken-2" dark
+            v-on:click="update">
+            Update
+          </v-btn>
+          <v-btn
+            class="green darken-2" dark
+            v-on:click="deleteCard">
+            Delete
+          </v-btn>
           <br>
         </div>
       </panel>
@@ -58,7 +59,17 @@ export default {
       try {
         await CardsService.put(this.card)
         this.$router.push({
-          name: 'list'
+          name: 'List'
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async deleteCard () {
+      try {
+        await CardsService.deleteCard(this.card)
+        this.$router.push({
+          name: 'List'
         })
       } catch (err) {
         console.log(err)
@@ -67,6 +78,11 @@ export default {
   },
   async mounted () {
     try {
+      if (!this.$store.state.isUserLoggedIn) {
+        this.$router.push({
+          name: 'Login'
+        })
+      }
       const id = this.$store.state.route.params.id
       this.card = (await CardsService.getCard(id)).data
     } catch (err) {

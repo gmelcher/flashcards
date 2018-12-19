@@ -19,7 +19,7 @@ module.exports = {
         })
       } else {
         card = await Card.findAll({
-          limit: 10
+          limit: 100
         })
       }
       res.send(card)
@@ -60,6 +60,20 @@ module.exports = {
     } catch (err) {
       res.status(500).send({
         error: 'An error has occured trying to update a Card'
+      })
+    }
+  },
+  async deleteCard (req, res) {
+    try {
+      await Card.destroy({
+        where: {
+          id: parseInt(req.params.id)
+        }
+      })
+      res.send('OK')
+    } catch (err) {
+      res.status(500).send({
+        error: 'An error has occured trying to delete a Card'
       })
     }
   }

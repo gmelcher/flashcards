@@ -17,4 +17,6 @@ module.exports = (app) => {
     CardsController.post)
   app.put('/cards/:id',
     CardsController.put)
+  app.delete('/cards/:id',
+    CardsController.deleteCard)
 }

@@ -16,5 +16,8 @@ export default {
   },
   put (card) {
     return Api().put(`cards/${card.id}`, card)
+  },
+  deleteCard (card) {
+    return Api().delete(`cards/${card.id}`, card)
   }
 }
